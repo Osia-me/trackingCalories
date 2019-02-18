@@ -2,8 +2,8 @@
 
 Frontend web application made to track calories online
 
-##Installation
+## Installation
 
 No need to install additional packages
 
-##Usage
+## Usage
