@@ -210,6 +210,9 @@ const App = (function(ItemCtrl, UICtrl){
 
     //Update Item Event
     document.querySelector(UISelectors.updateBtn).addEventListener('click', itemUpdateSubmit);
+
+    //Back Button Event
+    document.querySelector(UISelectors.backBtn).addEventListener('click', UICtrl.clearEditState);
   }
 
   //Add Item itemAddSubmit
@@ -271,7 +274,7 @@ const App = (function(ItemCtrl, UICtrl){
 
     //Clear edit state
     UICtrl.clearEditState();
-    
+
     e.preventDefault();
   }
 
