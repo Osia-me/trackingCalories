@@ -1,4 +1,38 @@
 // Storage Controller
+const StorageCtrl = (function(){
+  //Public methods
+  return{
+    storeItem: function(item){
+      let items;
+      //Check if anything in localstorage
+      if(localStorage.getItem('items') === null){
+        items = [];
+        items.push(item);
+        //Set localStorage
+        //local storage can hold only strings - convert anything into string
+        localStorage.setItem('items', JSON.stringify(items));
+      } else {
+        //Get what is already there in localStorage
+        items = JSON.parse(localStorage.getItem('items'));
+        //Push new item
+        items.push(item);
+        //REset localStorage
+        localStorage.setItem('items', JSON.stringify(items))
+      }
+    },
+    getItemsFromStorage: function(){
+      let items;
+      if(localStorage.getItem('items') === null){
+        items = [];
+      } else {
+        items = JSON.parse(localStorage.getItem('items'));
+      }
+      return items;
+    }
+  }
+})();
+
+
 //Item Controller
 const ItemCtrl = (function(){
   //Item Contructor
@@ -10,11 +44,12 @@ const ItemCtrl = (function(){
 
   //Data Structure / State
   const state = {
-    items: [
-      // {id:0, name: 'Steak Dinner', calories: 1200},
-      // {id:1, name: 'Cookie', calories: 90},
-      // {id:2, name: 'Egss', calories: 220}
-    ],
+    // items: [
+    //   // {id:0, name: 'Steak Dinner', calories: 1200},
+    //   // {id:1, name: 'Cookie', calories: 90},
+    //   // {id:2, name: 'Egss', calories: 220}
+    // ],
+    items: StorageCtrl.getItemsFromStorage(),
     currentItem: null,
     totalCalories: 0
   }
@@ -215,7 +250,7 @@ const UICtrl = (function(){
   }
 })();
 //App Controller -- called right away
-const App = (function(ItemCtrl, UICtrl){
+const App = (function(ItemCtrl, StorageCtrl, UICtrl){
 
   //Load Event listeners
   const loadEventListeners = function(){
@@ -264,6 +299,8 @@ const App = (function(ItemCtrl, UICtrl){
       const totalCalories = ItemCtrl.getTotalCalories();
       //Add totalCalories to UI
       UICtrl.showTotalCalories(totalCalories);
+      //Store in local storage
+      StorageCtrl.storeItem(newItem);
       //Clear fields
       UICtrl.clearInput();
     }
@@ -377,7 +414,7 @@ const App = (function(ItemCtrl, UICtrl){
       loadEventListeners();
     }
   }
-})(ItemCtrl, UICtrl);
+})(ItemCtrl, StorageCtrl, UICtrl);
 
 //Initializing App
 App.init();
