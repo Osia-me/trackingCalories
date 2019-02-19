@@ -169,6 +169,14 @@ const App = (function(ItemCtrl, UICtrl){
     //Add Item Event
     document.querySelector(UISelectors.addBtn).addEventListener('click', itemAddSubmit);
 
+    //Disable enter for yet another submit of same item
+    document.addEventListener('keypress', function(e){
+      if(e.keyCode === 13 || e.which === 13){
+        e.preventDefault();
+        return false;
+      }
+    });
+
     //Edit icon click event
     document.querySelector(UISelectors.itemList).addEventListener('click', itemEditClick);
 
