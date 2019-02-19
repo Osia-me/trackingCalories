@@ -63,6 +63,16 @@ const ItemCtrl = (function(){
       });
       return found;
     },
+    deleteItem: function(id){
+      //Get ids
+      const ids = state.items.map(function(item){
+        return item.id;
+      });
+      //Get index
+      const index = ids.indexOf(id);
+      //Remove index
+      state.items.splice(index,1);
+    },
     setCurrentItem: function(item){
       state.currentItem = item;
     },
@@ -211,8 +221,13 @@ const App = (function(ItemCtrl, UICtrl){
     //Update Item Event
     document.querySelector(UISelectors.updateBtn).addEventListener('click', itemUpdateSubmit);
 
+    //Delete Button Event
+    document.querySelector(UISelectors.deleteBtn).addEventListener('click', itemDeleteSubmit);
+
     //Back Button Event
     document.querySelector(UISelectors.backBtn).addEventListener('click', UICtrl.clearEditState);
+
+
   }
 
   //Add Item itemAddSubmit
@@ -274,6 +289,17 @@ const App = (function(ItemCtrl, UICtrl){
 
     //Clear edit state
     UICtrl.clearEditState();
+
+    e.preventDefault();
+  }
+
+  //Delete Item
+  const itemDeleteSubmit = function(e){
+    //Get Current Item
+    const currentItem = ItemCtrl.getCurrentItem();
+
+    //Delete from data structure
+    ItemCtrl.deleteItem(currentItem.id);
 
     e.preventDefault();
   }
