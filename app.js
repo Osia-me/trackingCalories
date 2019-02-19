@@ -160,6 +160,11 @@ const UICtrl = (function(){
         }
       });
     },
+    deleteListItem: function(id){
+      const itemID = `#item-${id}`;
+      const item = document.querySelector(itemID);
+      item.remove();
+    },
     clearInput: function(){
       document.querySelector(UISelectors.itemNameInput).value = '';
       document.querySelector(UISelectors.itemCaloriesInput).value = '';
@@ -300,6 +305,18 @@ const App = (function(ItemCtrl, UICtrl){
 
     //Delete from data structure
     ItemCtrl.deleteItem(currentItem.id);
+
+    //Delete from UI
+    UICtrl.deleteListItem(currentItem.id);
+
+    //Get the total calories
+    const totalCalories = ItemCtrl.getTotalCalories();
+
+    //Add totalCalories to UI
+    UICtrl.showTotalCalories(totalCalories);
+
+    //Clear edit state
+    UICtrl.clearEditState();
 
     e.preventDefault();
   }
